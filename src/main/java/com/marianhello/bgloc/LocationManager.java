@@ -11,7 +11,7 @@ import android.os.Looper;
 
 import com.github.jparkie.promise.Promise;
 import com.github.jparkie.promise.Promises;
-import com.intentfilter.androidpermissions.PermissionManager;
+//import com.intentfilter.androidpermissions.PermissionManager;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
@@ -43,6 +43,16 @@ public class LocationManager {
     public Promise<Location> getCurrentLocation(final int timeout, final long maximumAge, final boolean enableHighAccuracy) {
         final Promise<Location> promise = Promises.promise();
 
+        try {
+            Location currentLocation = getCurrentLocationNoCheck(timeout, maximumAge, enableHighAccuracy);
+            promise.set(currentLocation);
+        } catch (TimeoutException e) {
+            promise.setError(e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        /*
         PermissionManager permissionManager = PermissionManager.getInstance(mContext);
         permissionManager.checkPermissions(Arrays.asList(PERMISSIONS), new PermissionManager.PermissionRequestListener() {
             @Override
@@ -62,6 +72,7 @@ public class LocationManager {
                 promise.setError(new PermissionDeniedException());
             }
         });
+        */
 
         return promise;
     }

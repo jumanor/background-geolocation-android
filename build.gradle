@@ -32,6 +32,7 @@ buildscript {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        mavenCentral() // New line
         jcenter()
     }
     dependencies {
@@ -47,6 +48,7 @@ allprojects {
         maven {
             url 'https://maven.google.com'
         }
+        mavenCentral() // New line
         jcenter()
     }
 }
